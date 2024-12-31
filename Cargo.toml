@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "anagram",
+    "circular-buffer",
+    "clock",
+    "decimal",
+    "doubly-linked-list",
+    "gigasecond",
+    "hello-world",
+    "luhn",
+    "minesweeper",
+    "paasio",
+    "react",
+    "reverse-string",
+    "space-age",
+    "sublist",
+    "xorcism",
+]
