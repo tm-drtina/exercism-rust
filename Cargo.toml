@@ -11,6 +11,7 @@ members = [
     "hello-world",
     "luhn",
     "minesweeper",
+    "ocr-numbers",
     "paasio",
     "react",
     "reverse-string",
