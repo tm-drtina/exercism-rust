@@ -12,6 +12,7 @@ members = [
     "doubly-linked-list",
     "forth",
     "gigasecond",
+    "grains",
     "hello-world",
     "luhn",
     "macros",
