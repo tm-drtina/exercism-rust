@@ -4,6 +4,7 @@ resolver = "2"
 members = [
     "anagram",
     "armstrong-numbers",
+    "beer-song",
     "circular-buffer",
     "clock",
     "decimal",
