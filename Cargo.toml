@@ -3,6 +3,7 @@ resolver = "2"
 
 members = [
     "anagram",
+    "armstrong-numbers",
     "circular-buffer",
     "clock",
     "decimal",
