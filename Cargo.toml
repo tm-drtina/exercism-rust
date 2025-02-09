@@ -11,6 +11,7 @@ members = [
     "gigasecond",
     "hello-world",
     "luhn",
+    "macros",
     "minesweeper",
     "ocr-numbers",
     "paasio",
