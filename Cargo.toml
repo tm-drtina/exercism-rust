@@ -8,6 +8,7 @@ members = [
     "circular-buffer",
     "clock",
     "decimal",
+    "difference-of-squares",
     "doubly-linked-list",
     "forth",
     "gigasecond",
