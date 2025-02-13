@@ -6,6 +6,7 @@ members = [
     "anagram",
     "armstrong-numbers",
     "beer-song",
+    "book-store",
     "circular-buffer",
     "clock",
     "decimal",
