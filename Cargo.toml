@@ -12,6 +12,7 @@ members = [
     "clock",
     "decimal",
     "difference-of-squares",
+    "dominoes",
     "doubly-linked-list",
     "flower-field",
     "forth",
