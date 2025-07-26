@@ -21,6 +21,7 @@ members = [
     "hello-world",
     "luhn",
     "macros",
+    "matrix",
     "minesweeper",
     "ocr-numbers",
     "paasio",
