@@ -26,6 +26,7 @@ members = [
     "ocr-numbers",
     "paasio",
     "parallel-letter-frequency",
+    "poker",
     "react",
     "reverse-string",
     "space-age",
