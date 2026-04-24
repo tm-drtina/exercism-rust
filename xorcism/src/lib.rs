@@ -89,7 +89,8 @@ struct XorcismWriter<'a, W: std::io::Write> {
 impl<'a, W: std::io::Write> std::io::Write for XorcismWriter<'a, W> {
     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
         // TODO: avoid alloc
-        self.writer.write(&self.xorcism.munge(buf).collect::<Vec<_>>())
+        self.writer
+            .write(&self.xorcism.munge(buf).collect::<Vec<_>>())
     }
 
     fn flush(&mut self) -> std::io::Result<()> {

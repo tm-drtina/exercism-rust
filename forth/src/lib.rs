@@ -10,7 +10,7 @@ enum Item {
     Op(Op),
 }
 
-pub struct Forth{
+pub struct Forth {
     stack: Vec<Value>,
     ops: HashMap<String, Op>,
 }
@@ -27,57 +27,81 @@ impl Forth {
     pub fn new() -> Forth {
         let mut ops = HashMap::<String, Op>::new();
 
-        ops.insert(String::from("+"), Rc::new(|stack: &mut Vec<Value>| {
-            let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
-            let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
-            stack.push(n1 + n2);
-            Ok(())
-        }));
-        ops.insert(String::from("-"), Rc::new(|stack: &mut Vec<Value>| {
-            let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
-            let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
-            stack.push(n1 - n2);
-            Ok(())
-        }));
-        ops.insert(String::from("*"), Rc::new(|stack: &mut Vec<Value>| {
-            let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
-            let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
-            stack.push(n1 * n2);
-            Ok(())
-        }));
-        ops.insert(String::from("/"), Rc::new(|stack: &mut Vec<Value>| {
-            let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
-            let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
-            if n2 == 0 {
-                return Err(Error::DivisionByZero);
-            }
-            stack.push(n1 / n2);
-            Ok(())
-        }));
+        ops.insert(
+            String::from("+"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
+                let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
+                stack.push(n1 + n2);
+                Ok(())
+            }),
+        );
+        ops.insert(
+            String::from("-"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
+                let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
+                stack.push(n1 - n2);
+                Ok(())
+            }),
+        );
+        ops.insert(
+            String::from("*"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
+                let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
+                stack.push(n1 * n2);
+                Ok(())
+            }),
+        );
+        ops.insert(
+            String::from("/"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
+                let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
+                if n2 == 0 {
+                    return Err(Error::DivisionByZero);
+                }
+                stack.push(n1 / n2);
+                Ok(())
+            }),
+        );
 
-        ops.insert(String::from("dup"), Rc::new(|stack: &mut Vec<Value>| {
-            let n = *stack.last().ok_or(Error::StackUnderflow)?;
-            stack.push(n);
-            Ok(())
-        }));
-        ops.insert(String::from("drop"), Rc::new(|stack: &mut Vec<Value>| {
-            stack.pop().ok_or(Error::StackUnderflow)?;
-            Ok(())
-        }));
-        ops.insert(String::from("swap"), Rc::new(|stack: &mut Vec<Value>| {
-            let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
-            let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
-            stack.push(n2);
-            stack.push(n1);
-            Ok(())
-        }));
-        ops.insert(String::from("over"), Rc::new(|stack: &mut Vec<Value>| {
-            let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
-            let n1 = *stack.last().ok_or(Error::StackUnderflow)?;
-            stack.push(n2);
-            stack.push(n1);
-            Ok(())
-        }));
+        ops.insert(
+            String::from("dup"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                let n = *stack.last().ok_or(Error::StackUnderflow)?;
+                stack.push(n);
+                Ok(())
+            }),
+        );
+        ops.insert(
+            String::from("drop"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                stack.pop().ok_or(Error::StackUnderflow)?;
+                Ok(())
+            }),
+        );
+        ops.insert(
+            String::from("swap"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
+                let n1 = stack.pop().ok_or(Error::StackUnderflow)?;
+                stack.push(n2);
+                stack.push(n1);
+                Ok(())
+            }),
+        );
+        ops.insert(
+            String::from("over"),
+            Rc::new(|stack: &mut Vec<Value>| {
+                let n2 = stack.pop().ok_or(Error::StackUnderflow)?;
+                let n1 = *stack.last().ok_or(Error::StackUnderflow)?;
+                stack.push(n2);
+                stack.push(n1);
+                Ok(())
+            }),
+        );
 
         Self {
             stack: Vec::new(),
@@ -95,7 +119,10 @@ impl Forth {
             let item = if let Ok(v) = word.parse::<Value>() {
                 Item::Value(v)
             } else {
-                let op = self.ops.get(&word.to_lowercase()).ok_or(Error::UnknownWord)?;
+                let op = self
+                    .ops
+                    .get(&word.to_lowercase())
+                    .ok_or(Error::UnknownWord)?;
                 Item::Op(Rc::clone(op))
             };
             res.push(item);

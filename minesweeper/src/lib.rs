@@ -23,7 +23,9 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
                             b'*'
                         } else {
                             let count = (y.saturating_add_signed(-1)..=y + 1)
-                                .flat_map(|y| (x.saturating_add_signed(-1)..=x + 1).map(move |x| (x, y)))
+                                .flat_map(|y| {
+                                    (x.saturating_add_signed(-1)..=x + 1).map(move |x| (x, y))
+                                })
                                 .filter(|(x_, y_)| x != *x_ || y != *y_)
                                 .filter(|(x, y)| is_mine(minefield, *x, *y))
                                 .count() as u8;

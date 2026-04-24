@@ -18,7 +18,8 @@ pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
             .map(|chunk| s.spawn(|| frequency_worker(chunk)))
             .collect::<Vec<_>>();
 
-        handles.into_iter()
+        handles
+            .into_iter()
             .map(thread::ScopedJoinHandle::join)
             .map(Result::unwrap)
             .reduce(|mut a, b| {

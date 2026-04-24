@@ -29,7 +29,6 @@ pub struct Cursor<'a, T> {
 
 pub struct Iter<'a, T>(Option<&'a NodeRef<T>>);
 
-
 impl<T> LinkedList<T> {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
@@ -74,7 +73,7 @@ impl<T> LinkedList<T> {
 impl<T> Drop for LinkedList<T> {
     fn drop(&mut self) {
         let mut cursor = self.cursor_front();
-        while cursor.take().is_some() { }
+        while cursor.take().is_some() {}
     }
 }
 
@@ -84,7 +83,9 @@ impl<T> Cursor<'_, T> {
     /// Take a mutable reference to the current element
     pub fn peek_mut(&mut self) -> Option<&mut T> {
         // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
-        self.cur.as_mut().map(|f| &mut (unsafe { f.as_mut() }).value)
+        self.cur
+            .as_mut()
+            .map(|f| &mut (unsafe { f.as_mut() }).value)
     }
 
     pub fn peek(&self) -> Option<&T> {
@@ -109,7 +110,7 @@ impl<T> Cursor<'_, T> {
         let cur = self.cur.take()?;
         // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
         self.cur = (unsafe { cur.as_ref() }).prev;
-        
+
         self.peek_mut()
     }
 
@@ -137,7 +138,7 @@ impl<T> Cursor<'_, T> {
         self.cur = node.next.or(node.prev);
         self.list.len -= 1;
 
-        // SAFETY: 
+        // SAFETY:
         //   We've constructed it from Box previously, so the pointer is aligned
         //   The node is no longer accessible from prev, next, first or last pointer
         let boxed = unsafe { Box::from_raw(cur.as_ptr()) };

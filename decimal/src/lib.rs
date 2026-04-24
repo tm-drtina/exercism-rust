@@ -77,12 +77,12 @@ impl Decimal {
             Ordering::Less => {
                 self.int *= BigInt::from(10u32).pow(rhs.dec_points - self.dec_points);
                 self.dec_points += rhs.dec_points - self.dec_points;
-            },
+            }
             Ordering::Greater => {
                 rhs.int *= BigInt::from(10u32).pow(self.dec_points - rhs.dec_points);
                 rhs.dec_points += self.dec_points - rhs.dec_points;
-            },
-            Ordering::Equal => {},
+            }
+            Ordering::Equal => {}
         }
     }
 }

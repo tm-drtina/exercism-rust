@@ -23,7 +23,11 @@ impl State {
 
     fn solve(mut self) -> Result<Vec<Piece>, Self> {
         if self.is_final() {
-            return if self.is_valid() { Ok(self.chain) } else { Err(self) }
+            return if self.is_valid() {
+                Ok(self.chain)
+            } else {
+                Err(self)
+            };
         }
         for i in (0..self.available.len()).rev() {
             let matches = self.chain.last().unwrap().1 == self.available[i].0;

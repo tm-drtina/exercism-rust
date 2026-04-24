@@ -4,7 +4,7 @@ pub fn square_of_sum(n: u32) -> u32 {
 }
 
 pub fn sum_of_squares(n: u32) -> u32 {
-    (1..=n).map(|a| a*a).sum()
+    (1..=n).map(|a| a * a).sum()
 }
 
 pub fn difference(n: u32) -> u32 {

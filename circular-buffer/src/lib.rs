@@ -64,7 +64,7 @@ impl<T> CircularBuffer<T> {
     }
 
     pub fn clear(&mut self) {
-        while self.read().is_ok() { }
+        while self.read().is_ok() {}
     }
 
     pub fn overwrite(&mut self, element: T) {

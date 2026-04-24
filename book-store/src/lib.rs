@@ -4,17 +4,20 @@ fn basket_price(counts: [u32; 5]) -> u32 {
     if counts[0] <= 1 {
         PRICES[counts.iter().sum::<u32>() as usize]
     } else {
-        (0..5).filter_map(|n| {
-            if counts[n] > 0 {
-                let mut c = counts;
-                c.iter_mut().take(n + 1).for_each(|i| *i -= 1);
-                c.sort_unstable();
-                c.reverse(); // #lazy
-                Some(PRICES[n + 1] + basket_price(c))
-            } else {
-                None
-            }
-        }).min().unwrap()
+        (0..5)
+            .filter_map(|n| {
+                if counts[n] > 0 {
+                    let mut c = counts;
+                    c.iter_mut().take(n + 1).for_each(|i| *i -= 1);
+                    c.sort_unstable();
+                    c.reverse(); // #lazy
+                    Some(PRICES[n + 1] + basket_price(c))
+                } else {
+                    None
+                }
+            })
+            .min()
+            .unwrap()
     }
 }
 

@@ -37,7 +37,7 @@ impl<R: Read> Read for ReadStats<R> {
     }
 }
 
-pub struct WriteStats<W>{
+pub struct WriteStats<W> {
     writer: W,
     writes: usize,
     bytes: usize,
@@ -45,7 +45,11 @@ pub struct WriteStats<W>{
 
 impl<W: Write> WriteStats<W> {
     pub fn new(wrapped: W) -> Self {
-        Self { writer: wrapped, writes: 0, bytes: 0 }
+        Self {
+            writer: wrapped,
+            writes: 0,
+            bytes: 0,
+        }
     }
 
     pub fn get_ref(&self) -> &W {
