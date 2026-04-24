@@ -28,6 +28,7 @@ members = [
     "paasio",
     "parallel-letter-frequency",
     "poker",
+    "pov",
     "react",
     "reverse-string",
     "space-age",
