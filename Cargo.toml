@@ -1,8 +1,9 @@
 [workspace]
-resolver = "2"
+resolver = "3"
 
 members = [
     "acronym",
+    "all-your-base",
     "anagram",
     "armstrong-numbers",
     "beer-song",
