@@ -39,7 +39,7 @@ impl<'a> Iterator for LinesIter<'a> {
 struct NumberIter<'a>(&'a str, &'a str, &'a str);
 impl<'a> NumberIter<'a> {
     pub fn new(l1: &'a str, l2: &'a str, l3: &'a str) -> Result<Self, Error> {
-        if l1.len() % 3 != 0 {
+        if !l1.len().is_multiple_of(3) {
             Err(Error::InvalidColumnCount(l1.len()))
         } else {
             assert_eq!(l1.len(), l2.len());

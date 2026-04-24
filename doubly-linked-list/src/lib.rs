@@ -98,7 +98,7 @@ impl<T> Cursor<'_, T> {
     pub fn next(&mut self) -> Option<&mut T> {
         let cur = self.cur.take()?;
         // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
-        self.cur = (unsafe { cur.as_ref() }).next.clone();
+        self.cur = (unsafe { cur.as_ref() }).next;
 
         self.peek_mut()
     }
@@ -108,7 +108,7 @@ impl<T> Cursor<'_, T> {
     pub fn prev(&mut self) -> Option<&mut T> {
         let cur = self.cur.take()?;
         // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
-        self.cur = (unsafe { cur.as_ref() }).prev.clone();
+        self.cur = (unsafe { cur.as_ref() }).prev;
         
         self.peek_mut()
     }
@@ -122,19 +122,19 @@ impl<T> Cursor<'_, T> {
         // SAFETY: we hold &mut to the Cursor, therefore to the whole LinkedList. No other refs should exist at this time
         let node = unsafe { cur.as_ref() };
         if let Some(mut next) = &node.next {
-            (unsafe { next.as_mut() }).prev = node.prev.clone();
+            (unsafe { next.as_mut() }).prev = node.prev;
         }
         if let Some(mut prev) = &node.prev {
-            (unsafe { prev.as_mut() }).next = node.next.clone();
+            (unsafe { prev.as_mut() }).next = node.next;
         }
         if *self.list.first.as_ref().unwrap() == cur {
-            self.list.first = node.next.clone();
+            self.list.first = node.next;
         }
         if *self.list.last.as_ref().unwrap() == cur {
-            self.list.last = node.prev.clone();
+            self.list.last = node.prev;
         }
 
-        self.cur = node.next.clone().or_else(|| node.prev.clone());
+        self.cur = node.next.or(node.prev);
         self.list.len -= 1;
 
         // SAFETY: 
@@ -147,22 +147,22 @@ impl<T> Cursor<'_, T> {
     fn insert_between(&mut self, left: Option<NodeRef<T>>, right: Option<NodeRef<T>>, element: T) {
         let boxed = Box::new(Node {
             value: element,
-            prev: left.clone(),
-            next: right.clone(),
+            prev: left,
+            next: right,
         });
         let node = unsafe { NonNull::new_unchecked(Box::into_raw(boxed)) };
 
         if let Some(mut left) = left {
             // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
-            unsafe { left.as_mut() }.next = Some(node.clone());
+            unsafe { left.as_mut() }.next = Some(node);
         } else {
-            self.list.first = Some(node.clone());
+            self.list.first = Some(node);
         }
         if let Some(mut right) = right {
             // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
-            unsafe { right.as_mut() }.prev = Some(node.clone());
+            unsafe { right.as_mut() }.prev = Some(node);
         } else {
-            self.list.last = Some(node.clone());
+            self.list.last = Some(node);
         }
 
         self.list.len += 1;
@@ -172,18 +172,18 @@ impl<T> Cursor<'_, T> {
         let next = self.cur.as_ref().and_then(|cur| {
             // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
             let cur_node = unsafe { cur.as_ref() };
-            cur_node.next.clone()
+            cur_node.next
         });
-        self.insert_between(self.cur.clone(), next, element);
+        self.insert_between(self.cur, next, element);
     }
 
     pub fn insert_before(&mut self, element: T) {
         let prev = self.cur.as_ref().and_then(|cur| {
             // SAFETY: we hold &mut on Cursor, therefore on the whole LinkedList, so we are the only one taking reference on the value
             let cur_node = unsafe { cur.as_ref() };
-            cur_node.prev.clone()
+            cur_node.prev
         });
-        self.insert_between(prev, self.cur.clone(), element);
+        self.insert_between(prev, self.cur, element);
     }
 }
 
